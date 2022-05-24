@@ -40,8 +40,17 @@ const StyledDetails = styled.details`
     content: ">";
     position: absolute;
     left: -30px;
+    position: absolute;
+    left: -50px;
+    display: inline-block;
+    content: '>';
+    margin-left: 20px;
     transition: transform 0.2s ease-in-out;
     transform: rotate(90deg);
+  }
+
+  summary:focus-visible {
+    outline: 3px solid #f9e852;
   }
 
   &[open] {
@@ -49,7 +58,8 @@ const StyledDetails = styled.details`
       transform: rotate(-90deg);
     }
   }
-
+  
+  // Firefox animation workaround
   &[open] div {
     display: block;
   }
@@ -62,6 +72,14 @@ const StyledDetails = styled.details`
     margin: 20px 0;
     background-color: #f9e852;
     padding: 20px 40px;
+    transform: scaleY(0);
+    transform-origin: 0 0;
+    animation: 0.5s ease-in-out 1 forwards ${showBox};
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 20px 0;
+    background-color: #f9e852;
+    padding: 20px 40px 20px 20px;
     border-left: 10px solid black;
 
     p {
@@ -100,6 +118,8 @@ const AccordionFaq = () => {
       ))}
     </Wrapper>
   );
-};
+    }
+  }
+}
 
 export default AccordionFaq;
