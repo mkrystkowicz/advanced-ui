@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import React, {useState} from 'react';
+import styled, {keyframes} from 'styled-components';
 
 const AppearAnimation = keyframes`
   from {
@@ -34,7 +34,7 @@ const Navigation = styled.nav`
   position: absolute;
   left: 0;
   top: 0;
-  animation: 0.3s ease-in 1 forwards ${AppearAnimation};
+  animation: 0.3s ease-in-out 1 forwards ${AppearAnimation};
 
   @media (min-width: 720px) {
     display: block;
@@ -49,6 +49,16 @@ const Navigation = styled.nav`
     margin: 0;
     list-style: none;
     padding: 0;
+    border-right: 3px solid black;
+    animation: none;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(${({isOpen}) => isOpen ? '0' : '-100%'});
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -105,6 +115,12 @@ const MenuToggle = styled.button`
     &::after {
       position: absolute;
       content: "";
+    transform: translateX(${({isOpen}) => isOpen ? 'calc(-100% - 2px)' : 0});
+    transition: transform ease-in-out 0.3s;
+
+    &::before, &::after {
+      position: absolute;
+      content: '';
       width: 17px;
       height: 3px;
       background-color: black;
@@ -137,6 +153,12 @@ const MenuToggle = styled.button`
     &::after {
       position: absolute;
       content: "";
+    transform: translateX(${({isOpen}) => isOpen ? 'calc(-100% - 2px)' : 0});
+    transition: transform ease-in-out 0.3s;
+
+    &::before, &::after {
+      position: absolute;
+      content: '';
       width: 25px;
       height: 3px;
       background-color: black;
@@ -202,4 +224,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Sidebar

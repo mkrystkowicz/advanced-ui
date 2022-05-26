@@ -1,30 +1,28 @@
-import React from 'react';
-import {data} from './data';
-import styled, {keyframes} from "styled-components";
-
-const Wrapper = styled.div`
-  width: 100%;
-  padding: 100px;
-`;
+import React from "react";
+import { data } from "./data";
+import styled, { keyframes } from "styled-components";
 
 const showBox = keyframes`
-  0% {
+  from {
     transform: scaleY(0);
-  }
-  100% {
+  } to {
     transform: scaleY(1);
   }
 `;
 
-const showContent = keyframes`
-  0% {
+const showText = keyframes`
+  from {
     opacity: 0;
     transform: translateX(-2%);
-  }
-  100% {
-    opacity: 100%;
+  } to {
+    opacity: 1;
     transform: translateX(0);
   }
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  padding: 100px;
 `;
 
 const StyledDetails = styled.details`
@@ -39,6 +37,9 @@ const StyledDetails = styled.details`
   }
 
   summary::after {
+    content: ">";
+    position: absolute;
+    left: -30px;
     position: absolute;
     left: -50px;
     display: inline-block;
@@ -65,6 +66,12 @@ const StyledDetails = styled.details`
 
   div {
     display: none;
+    tranform: scaleY(0);
+    transform-origin: 0 0;
+    animation: ${showBox} 0.3s ease-in-out forwards;
+    margin: 20px 0;
+    background-color: #f9e852;
+    padding: 20px 40px;
     transform: scaleY(0);
     transform-origin: 0 0;
     animation: 0.5s ease-in-out 1 forwards ${showBox};
@@ -77,35 +84,42 @@ const StyledDetails = styled.details`
 
     p {
       opacity: 0;
-      animation: 0.3s 0.6s ease-in 1 forwards ${showContent};
+      animation: ${showText} 0.2s 0.4s ease-in 1 forwards;
     }
   }
 
-  @media not all and (min-resolution:.001dpcm)
-  { @supports (-webkit-appearance:none) and (stroke-color:transparent) {
-    summary::-webkit-details-marker {
-      display: none;
+  summary:focus-visible {
+    outline: 3px solid #f9e852;
+  }
+
+  @media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) {
+      summary::-webkit-details-marker {
+        display: none;
+      }
+
+      summary:focus {
+        outline: 3px solid #f9e852;
+      }
     }
-    
-    summary:focus {
-      outline: 3px solid #f9e852;
-    }
-  }}
+  }
 `;
 
 const AccordionFaq = () => {
-    return (
-        <Wrapper>
-            {data.map(item => (
-                <StyledDetails key={item.title}>
-                    <summary>{item.title}</summary>
-                    <div>
-                        <p>{item.content}</p>
-                    </div>
-                </StyledDetails>
-            ))}
-        </Wrapper>
-    )
-};
+  return (
+    <Wrapper>
+      {data.map(({ title, content }) => (
+        <StyledDetails key={title}>
+          <summary>{title}</summary>
+          <div>
+            <p>{content}</p>
+          </div>
+        </StyledDetails>
+      ))}
+    </Wrapper>
+  );
+    }
+  }
+}
 
 export default AccordionFaq;

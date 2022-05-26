@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const Nav = styled.nav`
+  z-index: 10000;
   width: 235px;
   display: flex;
   flex-direction: column;
@@ -12,8 +13,8 @@ const Nav = styled.nav`
   position: absolute;
   right: 0;
   top: 50px;
-  transform: translateX(${({ isOpen }) => (isOpen ? "0" : "100%")});
   transition: transform 0.5s ease-in-out;
+  transform: translateX(${({isOpen}) => isOpen ? '0' : '100%'});
 `;
 
 const NavList = styled.ul`
@@ -31,6 +32,8 @@ const StyledNavLink = styled(NavLink).attrs((props) => ({
   activeClassName,
 }))`
   font-family: "IBM Plex Mono", monospace;
+const activeClassName = 'selected';
+  font-family: 'IBM Plex Mono', monospace;
   text-decoration: none;
   color: black;
   font-size: 14px;
