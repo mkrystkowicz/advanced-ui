@@ -4,8 +4,7 @@ import styled, {keyframes} from 'styled-components';
 const AppearAnimation = keyframes`
   from {
     opacity: 0;
-  }
-  to {
+  } to {
     opacity: 1;
   }
 `;
@@ -28,7 +27,7 @@ const Content = styled.div`
 `;
 
 const Navigation = styled.nav`
-  display: ${({isOpen}) => isOpen ? 'block' : 'none'};
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   width: 100%;
   height: 100vh;
   background-color: white;
@@ -40,6 +39,16 @@ const Navigation = styled.nav`
   @media (min-width: 720px) {
     display: block;
     width: 300px;
+    border: 3px solid black;
+    animation: none;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(${({ isOpen }) => (isOpen ? 0 : "-100%")});
+  }
+
+  ul {
+    margin: 0;
+    list-style: none;
+    padding: 0;
     border-right: 3px solid black;
     animation: none;
     transition: transform 0.3s ease-in-out;
@@ -71,7 +80,7 @@ const Navigation = styled.nav`
   }
 `;
 
-const MenuToggleButton = styled.button`
+const MenuToggle = styled.button`
   width: 40px;
   height: 40px;
   z-index: 9999;
@@ -81,12 +90,14 @@ const MenuToggleButton = styled.button`
   overflow-x: hidden;
   background-color: white;
   border: 2px solid black;
+  padding: 0;
+  cursor: pointer;
 
   @media (min-width: 720px) {
     left: 0;
     border-left: none;
     transition: transform 0.3s ease-in-out;
-    transform: translateX(${({isOpen}) => isOpen ? '300px' : '0'});
+    transform: translateX(${({ isOpen }) => (isOpen ? "300px" : "0")});
   }
 
   span:first-child {
@@ -95,6 +106,15 @@ const MenuToggleButton = styled.button`
     position: absolute;
     top: 0;
     left: 0;
+    transform: translateX(
+      ${({ isOpen }) => (isOpen ? "calc(-100% - 2px)" : 0)}
+    );
+    transition: transform ease-in-out 0.3s;
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: "";
     transform: translateX(${({isOpen}) => isOpen ? 'calc(-100% - 2px)' : 0});
     transition: transform ease-in-out 0.3s;
 
@@ -124,6 +144,15 @@ const MenuToggleButton = styled.button`
     position: absolute;
     top: 0;
     left: calc(100% + 2px);
+    transform: translateX(
+      ${({ isOpen }) => (isOpen ? "calc(-100% - 2px)" : 0)}
+    );
+    transition: transform ease-in-out 0.3s;
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: "";
     transform: translateX(${({isOpen}) => isOpen ? 'calc(-100% - 2px)' : 0});
     transition: transform ease-in-out 0.3s;
 
@@ -148,31 +177,51 @@ const MenuToggleButton = styled.button`
 `;
 
 const Sidebar = () => {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-    return (
-        <>
-            <MenuToggleButton isOpen={isOpen} onClick={() => setIsOpen(prevState => !prevState)}>
-                <span/>
-                <span/>
-            </MenuToggleButton>
-            <Navigation isOpen={isOpen}>
-                <ul>
-                    <li><a tabIndex={isOpen ? null : '-1'} href="/">Lorem</a></li>
-                    <li><a tabIndex={isOpen ? null : '-1'} href="/">Ipsum</a></li>
-                    <li><a tabIndex={isOpen ? null : '-1'} href="/">Dolor</a></li>
-                    <li><a tabIndex={isOpen ? null : '-1'} href="/">Sit</a></li>
-                    <li><a tabIndex={isOpen ? null : '-1'} href="/">Amet</a></li>
-                </ul>
-            </Navigation>
-            <Content>
-                <div/>
-                <div/>
-                <div/>
-                <div/>
-            </Content>
-        </>
-    )
+  return (
+    <>
+      <MenuToggle isOpen={isOpen} onClick={() => setIsOpen((s) => !s)}>
+        <span />
+        <span />
+      </MenuToggle>
+      <Navigation isOpen={isOpen}>
+        <ul>
+          <li>
+            <a tabIndex={isOpen ? null : "-1"} href="/">
+              Lorem
+            </a>
+          </li>
+          <li>
+            <a tabIndex={isOpen ? null : "-1"} href="/">
+              Ipsum
+            </a>
+          </li>
+          <li>
+            <a tabIndex={isOpen ? null : "-1"} href="/">
+              Dolor
+            </a>
+          </li>
+          <li>
+            <a tabIndex={isOpen ? null : "-1"} href="/">
+              Sit
+            </a>
+          </li>
+          <li>
+            <a tabIndex={isOpen ? null : "-1"} href="/">
+              Amet
+            </a>
+          </li>
+        </ul>
+      </Navigation>
+      <Content>
+        <div />
+        <div />
+        <div />
+        <div />
+      </Content>
+    </>
+  );
 };
 
 export default Sidebar

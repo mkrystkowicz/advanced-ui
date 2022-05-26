@@ -1,5 +1,5 @@
-import React from 'react';
-import {NavLink} from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const Nav = styled.nav`
@@ -26,11 +26,13 @@ const NavListItem = styled.li`
   margin: 10px 0;
 `;
 
-const activeClassName = 'selected';
-const StyledNavLink = styled(NavLink).attrs(props => ({
-    tabIndex: props.isOpen ? null : '-1',
-    activeClassName,
+const activeClassName = "selected";
+const StyledNavLink = styled(NavLink).attrs((props) => ({
+  tabIndex: props.isOpen ? null : "-1",
+  activeClassName,
 }))`
+  font-family: "IBM Plex Mono", monospace;
+const activeClassName = 'selected';
   font-family: 'IBM Plex Mono', monospace;
   text-decoration: none;
   color: black;
@@ -51,39 +53,36 @@ const NavButton = styled.button`
 `;
 
 const Navigation = () => {
-    const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
-    return (
-        <Nav isOpen={isOpen}>
-            <NavButton onClick={() => setIsOpen(!isOpen)}>🍔</NavButton>
-            <NavList>
-                <NavListItem>
-                    <StyledNavLink isOpen={isOpen} exact to="/">Home</StyledNavLink>
-                </NavListItem>
-                <NavListItem>
-                    <StyledNavLink isOpen={isOpen} to="/infinite-scroll">Infinite Scroll</StyledNavLink>
-                </NavListItem>
-                <NavListItem>
-                    <StyledNavLink isOpen={isOpen} to="/accordion-faq">Accordion FAQ</StyledNavLink>
-                </NavListItem>
-                <NavListItem>
-                    <StyledNavLink isOpen={isOpen} to="/sidebar">Sidebar</StyledNavLink>
-                </NavListItem>
-                <NavListItem>
-                    <StyledNavLink isOpen={isOpen} to="/combobox">Combobox</StyledNavLink>
-                </NavListItem>
-                <NavListItem>
-                    <StyledNavLink isOpen={isOpen} to="/fancy-buttons">Fancy Buttons</StyledNavLink>
-                </NavListItem>
-                <NavListItem>
-                    <StyledNavLink isOpen={isOpen} to="/cool-transitions">Cool Transitions</StyledNavLink>
-                </NavListItem>
-                <NavListItem>
-                    <StyledNavLink isOpen={isOpen} to="/animated-svg">Animated Svg</StyledNavLink>
-                </NavListItem>
-            </NavList>
-        </Nav>
-    )
+  return (
+    <Nav isOpen={isOpen}>
+      <NavButton onClick={() => setIsOpen(!isOpen)}>🍔</NavButton>
+      <NavList>
+        <NavListItem>
+          <StyledNavLink isOpen={isOpen} exact to="/">
+            Home
+          </StyledNavLink>
+        </NavListItem>
+        <NavListItem>
+          <StyledNavLink isOpen={isOpen} to="/infinite-scroll">
+            Infinite Scroll
+          </StyledNavLink>
+        </NavListItem>
+        <NavListItem>
+          <StyledNavLink isOpen={isOpen} to="/accordion-faq">
+            Accordion FAQ
+          </StyledNavLink>
+        </NavListItem>
+        <NavListItem>
+          <StyledNavLink isOpen={isOpen} to="/sidebar">
+            Sidebar
+          </StyledNavLink>
+        </NavListItem>
+      </NavList>
+    </Nav>
+  );
 };
 
 export default Navigation;
+
