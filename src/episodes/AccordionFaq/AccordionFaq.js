@@ -43,7 +43,7 @@ const StyledDetails = styled.details`
     position: absolute;
     left: -50px;
     display: inline-block;
-    content: '>';
+    content: ">";
     margin-left: 20px;
     transition: transform 0.2s ease-in-out;
     transform: rotate(90deg);
@@ -58,7 +58,7 @@ const StyledDetails = styled.details`
       transform: rotate(-90deg);
     }
   }
-  
+
   // Firefox animation workaround
   &[open] div {
     display: block;
@@ -118,8 +118,6 @@ const AccordionFaq = () => {
       ))}
     </Wrapper>
   );
-    }
-  }
-}
+};
 
 export default AccordionFaq;
