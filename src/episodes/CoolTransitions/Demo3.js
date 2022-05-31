@@ -1,6 +1,7 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import image from './journey.jpg';
+import image from "./journey.jpg";
+import { gsap } from "gsap";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -29,7 +30,7 @@ const StyledButton = styled.button`
   border-radius: 100px;
   width: 150px;
   height: 150px;
-  
+
   &:hover span {
     transform: translate(-50%, -50%) scale(1.2);
   }
@@ -66,16 +67,52 @@ const StyledCloseButton = styled.button`
 `;
 
 const Demo3 = () => {
-    return (
-        <Wrapper>
-            <StyledText>Amazing journey</StyledText>
-            <StyledButton>Discover
-                <StyledSpan />
-            </StyledButton>
-            <StyledImage src={image} alt="My journey"/>
-            <StyledCloseButton>Close</StyledCloseButton>
-        </Wrapper>
-    )
+  const tl = React.useRef(null);
+  const wrapperRef = React.useRef(null);
+  const titleRef = React.useRef(null);
+  const buttonRef = React.useRef(null);
+  const imageRef = React.useRef(null);
+  const closeButtonRef = React.useRef(null);
+
+  React.useEffect(() => {
+    tl.current = gsap.timeline({ paused: true });
+
+    if (tl.current) {
+      tl.current
+        .to(titleRef.current, {
+          opacity: 0,
+          y: "-50px",
+          duration: 0.2,
+        })
+        .to(buttonRef.current.children[0], { scale: 25, duration: 1 }, "+=0.1")
+        .set(wrapperRef.current, { backgroundColor: "black" })
+        .to(buttonRef.current, { opacity: 0, duration: 0.1 })
+        .set([titleRef.current, buttonRef.current], { display: "none" })
+        .set([closeButtonRef.current, imageRef.current], { display: "block" })
+        .fromTo(
+          [imageRef.current, closeButtonRef.current],
+          { opacity: 0, y: "+=50px" },
+          { opacity: 1, y: 0, stagger: 0.2 }
+        );
+    }
+  }, []);
+
+  const playOpen = () => tl.current.play();
+  const playClose = () => tl.current.reverse();
+
+  return (
+    <Wrapper ref={wrapperRef}>
+      <StyledText ref={titleRef}>Amazing journey</StyledText>
+      <StyledButton ref={buttonRef} onClick={playOpen}>
+        Discover
+        <StyledSpan />
+      </StyledButton>
+      <StyledImage ref={imageRef} src={image} alt="My journey" />
+      <StyledCloseButton ref={closeButtonRef} onClick={playClose}>
+        Close
+      </StyledCloseButton>
+    </Wrapper>
+  );
 };
 
 export default Demo3;
