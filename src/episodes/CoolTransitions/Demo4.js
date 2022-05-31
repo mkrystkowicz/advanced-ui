@@ -1,6 +1,7 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import image from './discover.jpg';
+import image from "./discover.jpg";
+import gsap from "gsap";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -17,13 +18,13 @@ const StyledHalfBox = styled.div`
   align-items: center;
   width: 50vw;
   height: 100vh;
-  flex-direction: ${({isColumn}) => isColumn ? 'column' : 'row'};
+  flex-direction: ${({ isColumn }) => (isColumn ? "column" : "row")};
 `;
 
 const StyledText = styled.span`
   font-size: 105px;
   font-weight: bold;
-  color: ${({isWhite}) => isWhite ? 'white' : 'black'};
+  color: ${({ isWhite }) => (isWhite ? "white" : "black")};
 `;
 
 const StyledContent = styled(StyledHalfBox)`
@@ -51,23 +52,55 @@ const StyledParagraph = styled.p`
 `;
 
 const Demo4 = () => {
-    return (
-        <Wrapper>
-            <StyledHalfBox>
-                <StyledText>Discover</StyledText>
-            </StyledHalfBox>
-            <StyledCurtain>
-                <img src={image} alt=""/>
-                <StyledText isWhite>More</StyledText>
-            </StyledCurtain>
-            <StyledContent isColumn>
-                <StyledParagraph>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci asperiores atque blanditiis
-                    commodi consequuntur ducimus ea earum in ipsum iste itaque iusto minus natus necessitatibus numquam,
-                    quam quos recusandae rerum!</StyledParagraph>
-                <StyledParagraph>[click here to close]</StyledParagraph>
-            </StyledContent>
-        </Wrapper>
-    )
+  const [isOpen, setIsOpen] = React.useState(false);
+  const tl = React.useRef(null);
+  const curtainRef = React.useRef(null);
+  const titleRef = React.useRef(null);
+  const contentRef = React.useRef(null);
+
+  React.useEffect(() => {
+    tl.current = gsap.timeline({ paused: true });
+
+    tl.current.to(
+      [curtainRef.current.children, titleRef.current, contentRef.current],
+      {
+        x: "-=50vw",
+        duration: 0.5,
+        stagger: 0.05,
+        easing: "cubic-bezier(.47,.93,0,1.02)",
+      }
+    );
+  }, []);
+
+  const handleClick = () => {
+    if (isOpen) {
+      tl.current.reverse();
+    } else {
+      tl.current.play();
+    }
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <Wrapper>
+      <StyledHalfBox ref={titleRef}>
+        <StyledText>Discover</StyledText>
+      </StyledHalfBox>
+      <StyledCurtain onClick={handleClick} ref={curtainRef}>
+        <img src={image} alt="" />
+        <StyledText isWhite>More</StyledText>
+      </StyledCurtain>
+      <StyledContent ref={contentRef} isColumn>
+        <StyledParagraph>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
+          asperiores atque blanditiis commodi consequuntur ducimus ea earum in
+          ipsum iste itaque iusto minus natus necessitatibus numquam, quam quos
+          recusandae rerum!
+        </StyledParagraph>
+        <StyledParagraph>[click here to close]</StyledParagraph>
+      </StyledContent>
+    </Wrapper>
+  );
 };
 
 export default Demo4;
