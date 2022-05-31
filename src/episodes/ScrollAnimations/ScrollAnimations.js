@@ -1,12 +1,16 @@
-import React from 'react';
-import styled from 'styled-components';
-import gsap from 'gsap';
+import React from "react";
+import styled from "styled-components";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const imageUrl = 'https://i.picsum.photos/id/1042/3456/5184.jpg?hmac=5xr8Veg2D_kEQQO6rvGj_Yk8s_N4iq3-eZ9_KclSXNQ';
+gsap.registerPlugin(ScrollTrigger);
+
+const imageUrl =
+  "https://i.picsum.photos/id/1042/3456/5184.jpg?hmac=5xr8Veg2D_kEQQO6rvGj_Yk8s_N4iq3-eZ9_KclSXNQ";
 
 const Wrapper = styled.div`
   position: relative;
-  font-family: 'Montserrat', 'Helvetica', 'Arial', 'sans-serif';
+  font-family: "Montserrat", "Helvetica", "Arial", "sans-serif";
   padding: 50px;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -33,7 +37,7 @@ const Hero = styled.div`
     font-style: italic;
     font-weight: 800;
     letter-spacing: 1px;
-    font-family: 'Montserrat', 'Helvetica', 'Arial', 'sans-serif';
+    font-family: "Montserrat", "Helvetica", "Arial", "sans-serif";
     color: white;
   }
 `;
@@ -58,8 +62,9 @@ const Article = styled.article`
     padding-left: 20%;
   }
 
-  h2, p {
-    font-family: 'Montserrat', 'Helvetica', 'Arial', 'sans-serif';
+  h2,
+  p {
+    font-family: "Montserrat", "Helvetica", "Arial", "sans-serif";
   }
 
   h2 {
@@ -99,29 +104,149 @@ const CurtainImage = styled.img`
 `;
 
 const ScrollAnimations = () => {
+  const hero = React.useRef(null);
+  const article1 = React.useRef(null);
+  const article2 = React.useRef(null);
+  const image1 = React.useRef(null);
+  const image2 = React.useRef(null);
+  const curtain = React.useRef(null);
+  const tlHero = React.useRef(null);
+  const tlCurtain = React.useRef(null);
+
+  React.useEffect(() => {
+    tlHero.current = gsap.timeline({
+      scrollTrigger: {
+        trigger: hero.current,
+        start: "top top",
+        scrub: 0.1,
+      },
+    });
+
+    tlHero.current.to(hero.current.children[0], {
+      letterSpacing: 500,
+      ease: "power3",
+      duration: 1,
+    });
+
+    gsap.fromTo(
+      article1.current.children,
+      { x: "-=150%", autoAlpha: 0 },
+      {
+        x: 0,
+        autoAlpha: 1,
+        duration: 1,
+        ease: "power3",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: article1.current,
+          start: "top center",
+        },
+      }
+    );
+
+    gsap.fromTo(
+      article2.current.children,
+      { x: "+=150%", autoAlpha: 0 },
+      {
+        x: 0,
+        autoAlpha: 1,
+        duration: 1,
+        ease: "power3",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: article2.current,
+          start: "top center",
+        },
+      }
+    );
+
+    gsap.fromTo(
+      image1.current,
+      { x: "+=150%", autoAlpha: 0 },
+      {
+        x: 0,
+        autoAlpha: 1,
+        duration: 1,
+        ease: "power3",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: image1.current,
+          start: "top center",
+        },
+      }
+    );
+
+    gsap.fromTo(
+      image2.current,
+      { x: "-=150%", autoAlpha: 0 },
+      {
+        x: 0,
+        autoAlpha: 1,
+        duration: 1,
+        ease: "power3",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: image2.current,
+          start: "top center",
+        },
+      }
+    );
+
+    tlCurtain.current = gsap.timeline({
+      scrollTrigger: {
+        trigger: curtain.current,
+        start: "top center",
+      },
+    });
+
+    gsap.set(curtain.current.children[1], { autoAlpha: 0 });
+
+    tlCurtain.current
+      .to(curtain.current.children[0], { width: "100%", duration: 1 })
+      .to(curtain.current.children[1], { autoAlpha: 1 });
+
+    gsap.to(curtain.current.children[1], {
+      rotate: 45,
+      scrollTrigger: {
+        trigger: curtain.current,
+        start: "top center",
+        scrub: 1,
+      },
+    });
+  }, []);
+
   return (
     <Wrapper>
-      <Hero>
+      <Hero ref={hero}>
         <h1>inspired</h1>
       </Hero>
-      <Article>
+      <Article ref={article1}>
         <h2>get inspired</h2>
-        <p>Something has always existed. According to physics, there can never be true physical nothingness—though there
-          can be times when existence resembles nothing, such as a vacuum (the state of minimum possible energy).</p>
+        <p>
+          Something has always existed. According to physics, there can never be
+          true physical nothingness—though there can be times when existence
+          resembles nothing, such as a vacuum (the state of minimum possible
+          energy).
+        </p>
       </Article>
-      <Image/>
-      <Image/>
-      <Article>
+      <Image ref={image1} />
+      <Image ref={image2} />
+      <Article ref={article2}>
         <h2>get inspired</h2>
-        <p>Something has always existed. According to physics, there can never be true physical nothingness—though there
-          can be times when existence resembles nothing, such as a vacuum (the state of minimum possible energy).</p>
+        <p>
+          Something has always existed. According to physics, there can never be
+          true physical nothingness—though there can be times when existence
+          resembles nothing, such as a vacuum (the state of minimum possible
+          energy).
+        </p>
       </Article>
-      <Curtain>
-        <CurtainBackground/>
-        <CurtainImage src={imageUrl}/>
+      <Curtain ref={curtain}>
+        <CurtainBackground />
+        <CurtainImage src={imageUrl} />
       </Curtain>
     </Wrapper>
-  )
+  );
 };
 
-export default ScrollAnimations
+export default ScrollAnimations;
+
